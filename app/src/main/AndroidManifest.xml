@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.servicedownloadcoroutine">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="adnroid.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ServiceDownloadCoroutine">
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--
+
+android:exported：代表是否能被其他應用隱式調用，其默認值是由service中有無intent-filter決定的，如果有intent-filter，默認值為true，否則為false。為false的情況下，即使有intent-filter匹配，也無法打開，即無法被其他應用隱式調用。
+
+android:name：對應Service類名
+
+android:permission：是權限聲明 7.0版本問題
+
+android:process：是否需要在單獨的進程中運行,當設置為android:process=”:remote”時，代表Service在單獨的進程中運行。注意“：”很重要，它的意思是指要在當前進程名稱前面附加上當前的包名，所以“remote”和”:remote”不是同一個意思，前者為私有進程名稱為：remote，而後者為公開進程名稱為：App-packageName:remote。
+
+android:isolatedProcess ：設置 true 意味著，服務會在一個特殊的進程下運行，這個進程與系統其他進程分開且沒有自己的權限。與其通信的唯一途徑是通過服務的API(bind and start)。
+
+android:enabled：是否可以被系統實例化，默認為 true因為父標籤 也有 enable 屬性，所以必須兩個都為默認值 true 的情況下服務才會被激活，否則不會激活。
+-->
+
+        <service
+            android:name="com.example.servicedownloadcoroutine.service.AsyncTaskForgeLocal"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.FOREGROUND_SERVICE"/>
+
+        <service
+            android:name="com.example.servicedownloadcoroutine.service.JobBindRemote"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+    </application>
+
+</manifest>
